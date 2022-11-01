@@ -5,7 +5,11 @@ module.exports = {
     "./components/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        fjalla: "'Fjalla One', sans-serif",
+      },
+    },
   },
   plugins: [
     require('@tailwindcss/forms')({

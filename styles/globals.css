@@ -1,3 +1,21 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer utilities{
+    .word-1{
+        word-spacing: 5px;
+    }
+    .word-2{
+        word-spacing: 10px;
+    }
+    .word-3{
+        word-spacing: 15px;
+    }
+    .word-4{
+        word-spacing: 20px;
+    }
+    .word-5{
+        word-spacing: 25px;
+    }
+}

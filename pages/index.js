@@ -7,21 +7,17 @@ import { MdDeleteForever, MdPendingActions, MdDownloadDone } from 'react-icons/m
 import { IoMdAdd } from 'react-icons/io'
 import DoneList from '../components/DoneList';
 import TodoList from '../components/TodoList';
+import NavBar from '../components/NavBar';
 
 export default function Home() {
     const inpList = useRef();
     const inpEl = useRef();
-    const defObjc = {
-        id: 1,
-        name: "default",
-        selected: true,
-    }
 
     useEffect(() => {
         const listTemp = localStorage.getItem('Lists');
         const exstTodoList = localStorage.getItem('todoList');
         const exstDoneList = localStorage.getItem('doneList');
-        setLists( listTemp ? JSON.parse(listTemp) : [] );
+        setLists( listTemp ? JSON.parse(listTemp) : [{id: (Math.floor(Math.random()*100)+"-"+Math.floor(Math.random()*10)+"-"+Math.floor(Math.random()*1000)), name: "default", selected: true}] );
         setTodoList( exstTodoList ? JSON.parse(exstTodoList) : [] );
         setDoneList( exstDoneList ? JSON.parse(exstDoneList) : [] );
     }, []);
@@ -34,26 +30,28 @@ export default function Home() {
         var val = (inpList.current.value == "") ? "new list "+Lists.length : inpList.current.value;
         var listTemp = localStorage.getItem('Lists');
         const currList = listTemp ? JSON.parse(listTemp) : [];
-        currList.map(el => console.log(el.name));
-        // val = checkName(currList, val);
-        const prevPresNum = currList.filter(el => el.name.startsWith(val)).length;
-        val = prevPresNum ? val+" "+prevPresNum : val;
-        const next = [...Lists, {
-            id: Lists.length+1,
+        const data = {
+            id: (Math.floor(Math.random()*100)+"-"+Math.floor(Math.random()*10)+"-"+Math.floor(Math.random()*1000)),
             name: val,
-            selected: true,
-        }];
+            selected: false,
+        }
+        const next = [...Lists, data];
         setLists(next);
-        localStorage.setItem(`tasks[${val}]`, JSON.stringify([]))
+        localStorage.setItem(`tasks[${data.id}]`, JSON.stringify([]))
         localStorage.setItem('Lists', JSON.stringify(next));
         inpList.current.value = "";
         focus(inpList);
     } 
     const deleteList = (name, ind) => {
-        localStorage.removeItem(`tasks[${name}]`);
+        localStorage.removeItem(`tasks[${ind}]`);
         const todos = Lists.filter((el) => el.id != ind);
         setLists(todos ? todos : []);
         localStorage.setItem('Lists', JSON.stringify(todos));
+    }
+    const changeName = () => {
+        console.log(document.getElementById("listName").innerHTML);
+        // const val = document.getElementById("listName").value;
+        // 
     }
 
     // const addTodo = (name) => {
@@ -101,41 +99,41 @@ export default function Home() {
 
     return (
         <>
-            <div className='w-full max-w-full overflow-x-hidden mx-auto h-full'>
+            <div className='w-full max-w-full overflow-x-hidden mx-auto h-screen bg-gray-200'>
                 <div className='bg-slate-500 h-[200px] w-full'>
-                    
+                    <NavBar />
                 </div>
                 <div className='w-full mx-auto h-fit'>
                     <div className='p-4 flex justify-center'>
                         <form onSubmit={addLists}>
                             {/* <label for="todo">Insert here</label> */}
-                            <input className='form-input tracking-wide capitalize font-semibold p-2 rounded-md px-2 w-5xl' focus='true' type="text" placeholder="what's on your mind?" size="50" ref={inpList}/>
+                            <input className='form-input tracking-wide capitalize font-semibold p-2 rounded-md px-2 w-5xl' focus='true' type="text" placeholder="Start a new list?" size="50" ref={inpList}/>
                             {/* <button onClick={(e) => {
                                 e.preventDefault();
                                 inpEl.current.value = "";
                                 document.getElementById("todo").focus();
                             }} ><FiDelete /></button> */}
-                            <input className='form-input tracking-wide capitalize font-semibold p-2 rounded-md px-2 w-5xl mx-3' type={"submit"} />
+                            <input className='form-input tracking-wide capitalize font-semibold p-2 rounded-md px-2 w-5xl mx-3 opacity-0' type={"submit"} />
                         </form>
                     </div>
-                    <div className='flex overflow-x-scroll'>
-                        
-                    {
-                        Lists.map((item) => (
-                            <div key={item.id} className='mt-10 px-4 m-4 max-w-md rounded-md border border-black'>
-                                <div className='flex justify-between'>
-                                    <h1 className='font-semibold tracking-widest outline-none text-blue-400 text-lg mt-2 p-2' contentEditable="true">{item.name}</h1>
-                                    <button className='mr-2' onClick={(e) => {
-                                        e.preventDefault();
-                                        deleteList(item.name, item.id);
-                                    }}><IconContext.Provider value={{ color: "red", size: "1.4em", className: "global-class-name" }}>
-                                        <MdDeleteForever />
-                                    </IconContext.Provider></button>
-                                </div>
-                                <TodoList list={item.name} />
+                    <div className='flex justify-center flex-wrap'>
+                    {Lists.map((item) => (
+                        <div key={item.id} className='mt-10 px-4 m-4 h-fit max-w-2xl rounded-md border border-black shadow-lg shadow-slate-500'>
+                            <div className='group flex justify-between'>
+                                <h1 id='listName' className='uppercase font-semibold tracking-widest outline-none text-blue-400 text-lg mt-2 p-2'>{item.name}</h1>
+                                <button className='mr-2 transition duration-150 opacity-0 group-hover:opacity-60 hover:opacity-100' onClick={(e) => {
+                                    e.preventDefault();
+                                    deleteList(item.name, item.id);
+                                }}><IconContext.Provider value={{ color: "red", size: "1.4em", className: "global-class-name" }}>
+                                    <MdDeleteForever />
+                                </IconContext.Provider></button>
                             </div>
-                        ))
-                    }
+                            <TodoList list={item} />
+                        </div>
+                    ))}
+                    <button className='h-12 w-12 rounded-full bg-zinc-300 m-4 mt-10' onClick={(e) => {
+                        addLists(e);
+                    }}>+</button>
                     </div>
                     
                 </div>
