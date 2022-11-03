@@ -3,8 +3,6 @@ import { IconContext } from 'react-icons';
 import { IoMdAdd } from 'react-icons/io';
 import { MdDeleteForever, MdDownloadDone, MdPendingActions } from 'react-icons/md';
 
-
-
 export default function TodoList({list}) {
     const inpEl = useRef();
     useEffect(() => {
@@ -34,10 +32,6 @@ export default function TodoList({list}) {
         toBeDone = toBeDone.filter(el => el.id != ind)
         localStorage.setItem(`tasks[${list.id}]`, JSON.stringify(toBeDone));
         setTodoList(toBeDone);
-
-        // const todos = todoList.filter((ele) => ele.id != ind);
-        // setTodoList(todos ? todos : []);
-        // localStorage.setItem('todoList', JSON.stringify(todos));
     }
     const moveToDone = ((uniqId, uniqIndex) => {
         const todos = localStorage.getItem(`tasks[${list.id}]`);
@@ -47,7 +41,6 @@ export default function TodoList({list}) {
                 el.done = !el.done;
             }
         })
-        // toBeDone[uniqIndex].done = !toBeDone[uniqIndex].done;
         localStorage.setItem(`tasks[${list.id}]`, JSON.stringify(toBeDone));
         setTodoList(toBeDone);
     })
@@ -64,13 +57,11 @@ export default function TodoList({list}) {
                     <IoMdAdd />
                 </IconContext.Provider>
             </label>
-            {/* <h1 className='font-semibold tracking-wide text-blue-400 text-lg p-2 py-px' contentEditable="true">List 1</h1> */}
             <input className='tracking-widest capitalize font-semibold rounded-md px-2 py-px outline-none bg-transparent' autoFocus type="text" placeholder="what's on your mind?" id="todo1" name="todo1" ref={inpEl}/>
             <input className='form-input tracking-wide capitalize font-semibold p-2 rounded-md px-2 w-5xl mx-3 hidden' type={"submit"} />
         </form>
         {todoList.filter(elem => elem.done == false).map((el, ind) => (
             <div className='group flex justify-evenly items-center select-none h-fit w-full' key={el.id}>
-                {/* <input type="radio" name='todo' className="rounded-md text-pink-500 mx-4 h-4 w-4"/> */}
                 <button className='mr-2 transition duration-200 opacity-0 group-hover:opacity-90' onClick={(e) => {
                     e.preventDefault();
                     moveToDone(el.id, ind);

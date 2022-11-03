@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { TiInfoLargeOutline } from 'react-icons/ti'
-import { SiNounproject, SiAboutdotme, SiHomeadvisor } from 'react-icons/si'
+import { SiAboutdotme, SiHomeadvisor } from 'react-icons/si'
 import Link from 'next/link'
 import { useTheme } from 'next-themes'
 import { BsSunFill, BsMoonStarsFill } from 'react-icons/bs'
 import { IconContext } from 'react-icons'
-// import { }
 
 export default function Header() {
 	const {systemTheme, theme, setTheme} = useTheme();

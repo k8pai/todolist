@@ -1,11 +1,8 @@
 import Head from 'next/head'
 import Image from 'next/image'
-import { IconContext, icons } from "react-icons";
+import { IconContext } from "react-icons";
 import { useEffect, useRef, useState } from 'react'
-
-import { MdDeleteForever, MdDarkMode, MdPendingActions, MdDownloadDone, MdAdd } from 'react-icons/md'
-
-import DoneList from '../components/DoneList';
+import { MdDeleteForever, MdAdd } from 'react-icons/md'
 import TodoList from '../components/TodoList';
 
 

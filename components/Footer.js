@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import React from 'react'
 import { IconContext } from 'react-icons'
-import { SiAboutdotme, SiGithubactions, SiGithub, SiTwitter, SiDiscord } from 'react-icons/si'
+import { SiGithub, SiTwitter, SiDiscord } from 'react-icons/si'
 import { FaCode } from 'react-icons/fa'
 
 export default function Footer() {
