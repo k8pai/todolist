@@ -9,7 +9,7 @@ export default function about() {
 			<div className='p-5 m-2 sm:mx-2 sm:my-1 xsm:mx-2 xsm:my-1 max-w-3xl flex items-center rounded-md shadow-2xl bg-pritxt dark:bg-secbg h-fit'>
 				<div className='space-y-3'>
 					<h1 className='tracking-widest text-center text-2xl md:text-xl sm:text-lg xsm:text-lg'>About Dev</h1>
-					<p className='text-pribg dark:text-sectxt tracking-wide word-0 text-lg sm:text-base xsm:text-base'>I'm sudarsh, a Front-end developer based on bangalore, and obviously i love to code. Nothing much to add for now, just learning stuff, getting started with Nextjs and some js libraries.</p>
+					<p className='text-pribg dark:text-sectxt tracking-wide word-0 text-lg sm:text-base xsm:text-base'>I&apos;m sudarsh, a Front-end developer based on bangalore, and obviously i love to code. Nothing much to add for now, just learning stuff, getting started with Nextjs and some js libraries.</p>
 				</div>
 				<div className='min-w-[200px] sm:hidden xsm:hidden '>
 					<Image
