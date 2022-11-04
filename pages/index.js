@@ -50,7 +50,7 @@ export default function Home() {
 
     return (
         <>
-            <div className='bg-pritxt dark:bg-pribg'>
+            <div className='flex-grow flex justify-center bg-pritxt dark:bg-pribg'>
                 <div className='w-full mx-auto h-fit'>
                     <div className='p-4 flex justify-center'>
 					<input className='bg-white text-pribg dark:bg-secbg dark:text-pritxt focus:outline-none tracking-wide capitalize font-semibold p-2 pl-3 shadow-lg rounded-md px-2 w-5xl' 
@@ -61,14 +61,14 @@ export default function Home() {
 							if(key.code == "Enter"){
 								addLists();
 							}
-						}} size="50" ref={inpList}/>
+						}} size="25" ref={inpList}/>
                     </div>
                     <div className='flex justify-center flex-wrap'>
                     {Lists.map((item) => (
                         <div key={item.id} className='mt-10 px-4 m-4 h-fit max-w-2xl rounded-md border shadow-2xl bg-[#fff] dark:border-none dark:shadow-lg dark:bg-secbg'>
                             <div className='flex justify-between items-center select-none'>
                                 <h1 id='listName' className='uppercase font-semibold tracking-widest outline-none text-blue-400 dark:text-cyan-100 text-lg mt-2 p-2'>{item.name}</h1>
-                                <button className='opacity-0 transition duration-200 hover:opacity-100 hover:scale-125' onClick={(e) => {
+                                <button className='opacity-0 transition duration-200  md:opacity-100 sm:opacity-100 xsm:opacity-100 hover:opacity-100 hover:scale-125' onClick={(e) => {
                                     e.preventDefault();
                                     deleteList(item.name, item.id);
                                 }}><IconContext.Provider value={{ color: "red", size: "1.3em", className: "global-class-name" }}>
