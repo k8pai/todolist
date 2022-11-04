@@ -37,18 +37,18 @@ export default function Header() {
 		)
 	}
 	}  
-	function SignedOrNot(){
-		const { data: session } = useSession()
-		if(session){
-			return(
-				<button className='transition duration-200 p-2 rounded-md ring-2 ring-transparent hover:ring-pribg hover:dark:ring-pritxt' onClick={() => signOut()}>
-					<IconContext.Provider value={{ size:"1.4em", className: "global-class-name" }}>
-						<GoSignOut />
-					</IconContext.Provider>
-				</button>
-			)
-		}
-	}
+	// function SignedOrNot(){
+	// 	const { data: session } = useSession()
+	// 	if(session){
+	// 		return(
+	// 			<button className='transition duration-200 p-2 rounded-md ring-2 ring-transparent hover:ring-pribg hover:dark:ring-pritxt' onClick={() => signOut()}>
+	// 				<IconContext.Provider value={{ size:"1.4em", className: "global-class-name" }}>
+	// 					<GoSignOut />
+	// 				</IconContext.Provider>
+	// 			</button>
+	// 		)
+	// 	}
+	// }
 	return (
 		<div>
 			<div className='max-w-2xl h-fit mx-auto text-pribg dark:text-pritxt p-4 py-6'>
