@@ -6,7 +6,6 @@ import { GoSignOut } from 'react-icons/go'
 import React, { useEffect, useState } from 'react'
 import { BsSunFill, BsMoonStarsFill } from 'react-icons/bs'
 import { SiAboutdotme, SiHomeadvisor } from 'react-icons/si'
-import { useSession, signIn, signOut } from 'next-auth/react'
 
 export default function Header() {
 	const {systemTheme, theme, setTheme} = useTheme();
@@ -50,8 +49,8 @@ export default function Header() {
 	// 	}
 	// }
 	return (
-		<div className='max-w-2xl h-fit mx-auto text-pribg dark:text-pritxt p-4 py-6'>
-			<div className='max-w-5xl h-fit mx-auto text-pribg dark:text-pritxt p-4'>
+		<div className='max-w-2xl w-full h-fit mx-auto text-pribg dark:text-pritxt p-4 py-6'>
+			<div className='max-w-5xl h-fit text-pribg dark:text-pritxt p-4'>
 				<ul className='flex justify-end space-x-3'>
 					<Link className='transition duration-200 p-2 rounded-md ring-2 ring-transparent hover:ring-pribg hover:dark:ring-pritxt' href={'/'}>
 						<IconContext.Provider value={{ size: "1.4em", className: "global-class-name" }}>
