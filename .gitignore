@@ -4,9 +4,11 @@
 /node_modules
 /.pnp
 .pnp.js
+greetbook.js
 
 # testing
 /coverage
+/pages/greetbook.js
 
 # next.js
 /.next/
