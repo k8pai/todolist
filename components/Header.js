@@ -35,7 +35,7 @@ export default function Header() {
 	}
 	}
 	return (
-		<div className='max-w-2xl w-full h-fit mx-auto text-pribg dark:text-pritxt p-4 py-6'>
+		<div className='max-w-3xl w-full h-fit mx-auto text-pribg dark:text-pritxt p-4 py-6'>
 			<div className='max-w-5xl h-fit text-pribg dark:text-pritxt p-4'>
 				<ul className='flex justify-end space-x-3'>
 					<Link className='transition duration-200 p-2 rounded-md ring-2 ring-transparent hover:ring-pribg hover:dark:ring-pritxt' href={'/'}>

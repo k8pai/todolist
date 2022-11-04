@@ -57,20 +57,16 @@ export default function TodoList({list}) {
                     <IoMdAdd />
                 </IconContext.Provider>
             </label>
-            <input className='tracking-widest capitalize font-semibold rounded-md px-2 py-px outline-none bg-transparent' autoFocus type="text" placeholder="what's on your mind?" id="todo1" name="todo1" ref={inpEl}/>
+            <input className='tracking-widest font-semibold rounded-md px-2 py-px outline-none bg-transparent' autoFocus type="text" placeholder="what's on your mind?" id="todo1" name="todo1" ref={inpEl}/>
             <input className='form-input tracking-wide capitalize font-semibold p-2 rounded-md px-2 w-5xl mx-3 hidden' type={"submit"} />
         </form>
         {todoList.filter(elem => elem.done == false).map((el, ind) => (
-            <div className='group flex justify-evenly items-center select-none h-fit w-full' key={el.id}>
-                <button className='mr-2 transition duration-200 opacity-0 group-hover:opacity-90' onClick={(e) => {
+            <div className='group flex justify-evenly items-center select-none my-2 h-fit w-full' key={el.id}>
+                <button className='p-px rounded-md outline-none tracking-widest flex-grow text-left transition duration-200 hover:text-sectxt' onClick={(e) => {
                     e.preventDefault();
                     moveToDone(el.id, ind);
-                }}><IconContext.Provider value={{ color: "blue", size: "1.2em", className: "global-class-name" }}>
-                    <MdDownloadDone />
-                </IconContext.Provider></button>
-                <li className='px-px py-1 rounded-md outline-none tracking-widest block'>{el.task}</li>
-                <span className='flex-1'></span>
-                <button className='mr-2 transition duration-200 opacity-0 group-hover:opacity-90' onClick={(e) => {
+                }}>{el.task}</button>
+                <button className='ml-3 transition duration-300 opacity-0 md:opacity-100 sm:opacity-100 xsm:opacity-100 group-hover:opacity-90' onClick={(e) => {
                     e.preventDefault();
                     deleteItem(el.id);
                 }}><IconContext.Provider value={{ color: "red", size: "1.2em", className: "global-class-name" }}>
@@ -80,21 +76,17 @@ export default function TodoList({list}) {
             </div>
         ))}
         </ul>
-        <hr className='bg-black h-1' />
+        <hr className='bg-black' />
         <ul className='py-2 list-none text-md font-medium font-sans tracking-wide capitalize'>
         <code className='font-semibold tracking-wide text-green-400 text-lg mb-px pl-2'>Done</code>
-        <hr />
+        {/* <hr /> */}
         {todoList.filter(elem => elem.done == true).map((el, ind) => (
-            <div className='group flex items-center select-none' key={el.id}>
-                <button className='mr-2 transition duration-200 opacity-0 group-hover:opacity-90' onClick={(e) => {
+            <div className='group flex items-center select-none my-2' key={el.id}>
+                <button className='p-px tracking-widest flex-grow text-left rounded-md transition duration-200 text-sectxt hover:text-pribg hover:dark:text-pritxt' onClick={(e) => {
                     e.preventDefault();
                     moveToDone(el.id, ind);
-                }}><IconContext.Provider value={{ color: "darkgreen", size: "1.2em", className: "global-class-name" }}>
-                    <MdPendingActions />
-                </IconContext.Provider></button>
-                <li className='px-px py-1 tracking-widest rounded-md my-px'><strike>{el.task}</strike></li>
-                <span className='flex-1'></span>
-                <button className='mr-2 transition duration-200 opacity-0 group-hover:opacity-90' onClick={(e) => {
+                }}><strike>{el.task}</strike></button>
+                <button className='ml-3 transition duration-200 opacity-0 md:opacity-100 sm:opacity-100 xsm:opacity-100 group-hover:opacity-90' onClick={(e) => {
                     e.preventDefault();
                     deleteItem(el.id);
                 }}><IconContext.Provider value={{ color: "red", size: "1.2em", className: "global-class-name" }}>

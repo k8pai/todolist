@@ -13,9 +13,7 @@ const Layout = ({children}) => {
 			</Head>
 			<div className='min-h-screen flex flex-col bg-pritxt text-pribg dark:text-pritxt dark:bg-pribg'>
 				<Header />
-				<main className='flex-grow'>
-					{children}
-				</main>
+				{children}
 				<Footer />
 			</div>
 		</div>
