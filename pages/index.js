@@ -22,7 +22,7 @@ export default function Home() {
     const [todoList, setTodoList] = useState([]);
     const [doneList, setDoneList] = useState([]);
 
-    const addLists = (e) => {
+    const addLists = () => {
         var val = (inpList.current.value == "") ? "new list "+Lists.length : inpList.current.value;
         var listTemp = localStorage.getItem('Lists');
         const currList = listTemp ? JSON.parse(listTemp) : [];
@@ -52,16 +52,21 @@ export default function Home() {
         <>
             <div className='flex-grow flex justify-center bg-pritxt dark:bg-pribg'>
                 <div className='w-full mx-auto h-fit'>
-                    <div className='p-4 flex justify-center'>
-					<input className='bg-white text-pribg dark:bg-secbg dark:text-pritxt focus:outline-none tracking-wide capitalize font-semibold p-2 pl-3 shadow-lg rounded-md px-2 w-5xl' 
-						autoFocus 
-						type="text" 
-						placeholder="Start a new list?" 
-						onKeyDown={(key) => {
-							if(key.code == "Enter"){
-								addLists();
-							}
-						}} size="25" ref={inpList}/>
+                    <div className='max-w-4xl w-full mx-auto p-4 flex justify-center'>
+						<form onSubmit={(e) => {
+							e.preventDefault();
+							addLists}}>
+							<input className='min-w-[200px] w-full bg-white text-pribg dark:bg-secbg dark:text-pritxt focus:outline-none tracking-wide capitalize font-semibold p-2 pl-3 shadow-lg rounded-md px-2 w-5xl' 
+								autoFocus 
+								type="text" 
+								placeholder="Start a new list?" 
+								onKeyDown={(key) => {
+									if(key.code == "Enter"){
+										addLists();
+									}
+								}} ref={inpList}/>
+							<input className='form-input tracking-wide capitalize font-semibold p-2 rounded-md px-2 w-5xl mx-3 opacity-0' type={"submit"} />
+						</form>
                     </div>
                     <div className='flex justify-center flex-wrap'>
                     {Lists.map((item) => (
