@@ -22,7 +22,8 @@ export default function Home() {
     const [todoList, setTodoList] = useState([]);
     const [doneList, setDoneList] = useState([]);
 
-    const addLists = () => {
+    const addLists = (e) => {
+		e.preventDefault();
         var val = (inpList.current.value == "") ? "new list "+Lists.length : inpList.current.value;
         var listTemp = localStorage.getItem('Lists');
         const currList = listTemp ? JSON.parse(listTemp) : [];
@@ -50,30 +51,25 @@ export default function Home() {
 
     return (
         <>
-            <div className='flex-grow flex justify-center bg-pritxt dark:bg-pribg'>
+            <div className='flex-grow flex justify-center transition ease-linear duration-150 bg-pritxt dark:bg-pribg'>
                 <div className='w-full mx-auto h-fit'>
                     <div className='max-w-4xl w-full mx-auto p-4 flex justify-center'>
 						<form onSubmit={(e) => {
-							e.preventDefault();
-							addLists}}>
-							<input className='min-w-[200px] w-full bg-white text-pribg dark:bg-secbg dark:text-pritxt focus:outline-none tracking-wide capitalize font-semibold p-2 pl-3 shadow-lg rounded-md px-2 w-5xl' 
+							addLists(e)}}>
+							<input className='xsm:w-[150px] sm:w-[250px] min-w-[100px] w-[250px] transition-all duration-150 bg-white text-pribg dark:bg-secbg dark:text-pritxt outline-none focus:outline-none tracking-wide capitalize font-semibold p-2 pl-3 shadow-lg rounded-md px-2 w-5xl' 
 								autoFocus 
-								type="text" 
-								placeholder="Start a new list?" 
-								onKeyDown={(key) => {
-									if(key.code == "Enter"){
-										addLists();
-									}
-								}} ref={inpList}/>
-							<input className='form-input tracking-wide capitalize font-semibold p-2 rounded-md px-2 w-5xl mx-3 opacity-0' type={"submit"} />
+								type="text"
+								placeholder="Start a new list?"
+								ref={inpList}/>
+							<input type="submit" className='transition duration-150 ease-linear bg-white text-pribg dark:bg-secbg dark:text-pritxt focus:outline-none tracking-wide font-semibold p-2 ml-3 shadow-lg rounded-md px-2' value={"Add"}/>
 						</form>
                     </div>
                     <div className='flex justify-center flex-wrap'>
                     {Lists.map((item) => (
-                        <div key={item.id} className='mt-10 px-4 m-4 h-fit max-w-2xl rounded-md border shadow-2xl bg-[#fff] dark:border-none dark:shadow-lg dark:bg-secbg'>
+                        <div key={item.id} className='mt-10 px-4 m-4 h-fit max-w-2xl rounded-md border shadow-2xl transition duration-150 bg-[#fff] dark:border-none dark:shadow-lg dark:bg-secbg'>
                             <div className='flex justify-between items-center select-none'>
-                                <h1 id='listName' className='uppercase font-semibold tracking-widest outline-none text-blue-400 dark:text-cyan-100 text-lg mt-2 p-2'>{item.name}</h1>
-                                <button className='opacity-0 transition duration-200  md:opacity-100 sm:opacity-100 xsm:opacity-100 hover:opacity-100 hover:scale-125' onClick={(e) => {
+                                <h1 id='listName' className='uppercase font-semibold tracking-widest outline-none transition duration-150 text-blue-400 dark:text-cyan-100 text-lg mt-2 p-2'>{item.name}</h1>
+                                <button className='opacity-0 transition duration-200 lg:opacity-100 md:opacity-100 sm:opacity-100 xsm:opacity-100 hover:opacity-100 hover:scale-125' onClick={(e) => {
                                     e.preventDefault();
                                     deleteList(item.name, item.id);
                                 }}><IconContext.Provider value={{ color: "red", size: "1.3em", className: "global-class-name" }}>
@@ -83,7 +79,7 @@ export default function Home() {
                             <TodoList list={item} listId={item.id} />
                         </div>
                     ))}
-                    <button className='h-12 w-12 rounded-full bg-[#fff] text-pribg dark:bg-terbg dark:text-white m-4 mt-10 shadow-lg flex justify-center items-center' onClick={(e) => {
+                    <button className='h-12 w-12 rounded-full transition duration-150 ease-in bg-[#fff] text-pribg dark:bg-terbg dark:text-white m-4 mt-10 shadow-lg flex justify-center items-center' onClick={(e) => {
                         addLists(e);
                     }}><MdAdd /></button>
                     </div>

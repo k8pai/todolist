@@ -45,7 +45,7 @@ export default function TodoList({list}) {
         setTodoList(toBeDone);
     })
     return (
-    <div>
+    <div className='transition duration-300 ease-linear'>
         <hr />
         <ul className='pb-2 list-none text-md font-medium font-sans tracking-wide capitalize min-w-2xl'>
         <form className='flex items-center my-2' onSubmit={(e) => {
@@ -61,12 +61,12 @@ export default function TodoList({list}) {
             <input className='form-input tracking-wide capitalize font-semibold p-2 rounded-md px-2 w-5xl mx-3 hidden' type={"submit"} />
         </form>
         {todoList.filter(elem => elem.done == false).map((el, ind) => (
-            <div className='group flex justify-evenly items-center select-none my-2 h-fit w-full' key={el.id}>
-                <button className='p-px rounded-md outline-none tracking-widest flex-grow text-left transition duration-200 hover:text-sectxt' onClick={(e) => {
+            <div className='group flex justify-evenly transition-colors duration-150 ease-linear items-center select-none my-2 h-fit w-full' key={el.id}>
+                <button className='p-px rounded-md outline-none tracking-widest flex-grow text-left transition duration-150 ease-linear text-pribg hover:text-sectxt dark:text-pritxt hover:dark:text-sectxt' onClick={(e) => {
                     e.preventDefault();
                     moveToDone(el.id, ind);
                 }}>{el.task}</button>
-                <button className='ml-3 transition duration-300 opacity-0 md:opacity-100 sm:opacity-100 xsm:opacity-100 group-hover:opacity-90' onClick={(e) => {
+                <button className='ml-3 transition duration-300 opacity-0 lg:opacity-100 md:opacity-100 sm:opacity-100 xsm:opacity-100 group-hover:opacity-90' onClick={(e) => {
                     e.preventDefault();
                     deleteItem(el.id);
                 }}><IconContext.Provider value={{ color: "red", size: "1.2em", className: "global-class-name" }}>
@@ -82,11 +82,11 @@ export default function TodoList({list}) {
         {/* <hr /> */}
         {todoList.filter(elem => elem.done == true).map((el, ind) => (
             <div className='group flex items-center select-none my-2' key={el.id}>
-                <button className='p-px tracking-widest flex-grow text-left rounded-md transition duration-200 text-sectxt hover:text-pribg hover:dark:text-pritxt' onClick={(e) => {
+                <button className='p-px tracking-widest flex-grow text-left rounded-md transition duration-150 text-sectxt hover:text-pribg hover:dark:text-pritxt' onClick={(e) => {
                     e.preventDefault();
                     moveToDone(el.id, ind);
                 }}><strike>{el.task}</strike></button>
-                <button className='ml-3 transition duration-200 opacity-0 md:opacity-100 sm:opacity-100 xsm:opacity-100 group-hover:opacity-90' onClick={(e) => {
+                <button className='ml-3 transition duration-200 opacity-0 lg:opacity-100 md:opacity-100 sm:opacity-100 xsm:opacity-100 group-hover:opacity-90' onClick={(e) => {
                     e.preventDefault();
                     deleteItem(el.id);
                 }}><IconContext.Provider value={{ color: "red", size: "1.2em", className: "global-class-name" }}>

@@ -11,7 +11,7 @@ const Layout = ({children}) => {
 				<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 				<title>Todo list By k8pai</title>
 			</Head>
-			<div className='min-h-screen flex flex-col bg-pritxt text-pribg dark:text-pritxt dark:bg-pribg'>
+			<div className='min-h-screen flex flex-col transition duration-150 ease-linear bg-pritxt text-pribg dark:text-pritxt dark:bg-pribg'>
 				<Header />
 				{children}
 				<Footer />
