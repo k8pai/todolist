@@ -3,12 +3,16 @@ import Image from 'next/image'
 import { IconContext } from "react-icons";
 import { useEffect, useRef, useState } from 'react'
 import { MdDeleteForever, MdAdd } from 'react-icons/md'
+import { CiWarning } from 'react-icons/ci';
 import TodoList from '../components/TodoList';
+import { motion } from 'framer-motion';
 
 
 export default function Home() {
     const inpList = useRef();
     const inpEl = useRef();
+	const [errorMessage, setErrorMessage] = useState(null);
+	const [showMessage, setShowMessage] = useState(true);
 
     useEffect(() => {
         const listTemp = localStorage.getItem('Lists');
@@ -24,49 +28,87 @@ export default function Home() {
 
     const addLists = (e) => {
 		e.preventDefault();
-        var val = (inpList.current.value == "") ? "new list "+Lists.length : inpList.current.value;
+		setShowMessage(true);
+        const val = inpList.current.value;
+		if (!val) {
+			// Set the error message in the component's state
+			console.log("invalid input, empty");
+			setErrorMessage('Name The List!');
+			return;
+		}
+		setErrorMessage(null);
         var listTemp = localStorage.getItem('Lists');
         const currList = listTemp ? JSON.parse(listTemp) : [];
-        const data = {
-            id: (Math.floor(Math.random()*100)+"-"+Math.floor(Math.random()*10)+"-"+Math.floor(Math.random()*1000)),
-            name: val,
-            selected: false,
-        }
-        const next = [...Lists, data];
-        setLists(next);
-        localStorage.setItem(`tasks[${data.id}]`, JSON.stringify([]))
-        localStorage.setItem('Lists', JSON.stringify(next));
-        inpList.current.value = "";
-        focus(inpList);
-    } 
+		let names = [];
+		if (currList.length > 0) {
+			names = currList.map(data => data.name);
+		}
+		if(!names.includes(val)){
+			const data = {
+				id: (Math.floor(Math.random()*100)+"-"+Math.floor(Math.random()*10)+"-"+Math.floor(Math.random()*1000)),
+				name: val,
+			}
+			const next = [...Lists, data];
+			setLists(next);
+			localStorage.setItem(`tasks[${data.id}]`, JSON.stringify([]))
+			localStorage.setItem('Lists', JSON.stringify(next));
+			inpList.current.value = "";
+			focus(inpList);
+			setErrorMessage(null);
+			return;
+		}else{
+			console.log("invalid input, taken name");
+			setErrorMessage('List Exist, Try Another Name!');
+			return;
+		}
+    }
     const deleteList = (name, ind) => {
         localStorage.removeItem(`tasks[${ind}]`);
         const todos = Lists.filter((el) => el.id != ind);
         setLists(todos ? todos : []);
         localStorage.setItem('Lists', JSON.stringify(todos));
     }
-    const changeName = () => {
-        console.log(document.getElementById("listName").innerHTML);
-    }
 
     return (
         <>
             <div className='flex-grow flex justify-center transition ease-linear duration-150 bg-pritxt dark:bg-pribg'>
-                <div className='w-full mx-auto h-fit'>
-                    <div className='max-w-4xl w-full mx-auto p-4 flex justify-center'>
-						<form onSubmit={(e) => {
-							addLists(e)}}>
-							<input className='xsm:w-[150px] sm:w-[250px] min-w-[100px] w-[250px] transition-all duration-150 bg-white text-pribg dark:bg-secbg dark:text-pritxt outline-none focus:outline-none tracking-wide capitalize font-semibold p-2 pl-3 shadow-lg rounded-md px-2 w-5xl' 
-								autoFocus 
+                <div className='mx-[100px] w-full h-fit'>
+                    <div className='max-w-4xl w-full mx-auto p-4 flex-col items-center justify-center'>
+						{errorMessage ?
+						<motion.div
+							initial={{opacity: showMessage? 0: 1}}
+							animate={{opacity: showMessage? 1: 0}}
+							transition={{duration: .3}}
+							className='p-2 my-3 text-red-600 text-lg font-semibold font-mono flex items-center justify-center'> 
+							{errorMessage}
+						</motion.div> :
+						<motion.div
+							initial={{opacity: 0}}
+							animate={{opacity: 1}}
+							transition={{duration: .2}}
+							className='p-2 my-3 text-lg xsm:text-base font-semibold font-mono flex items-center justify-center'> 
+							Pick a name for your list!
+						</motion.div>}
+						<form className=' w-full flex justify-center' onSubmit={(e) => {
+							addLists(e)
+							setTimeout(() => {
+								setShowMessage(false);
+							}, 2500);
+							setTimeout(() => {
+								setErrorMessage(null);
+							},2900);
+							}}>
+							<input className='max-w-[400px] w-full transition-all duration-150 bg-white text-pribg dark:bg-secbg dark:text-pritxt outline-none focus:outline-none tracking-wide uppercase font-semibold p-3 px-4 shadow-lg rounded-md sm:flex-1 xsm:flex-grow' 
+								autoFocus
 								type="text"
-								placeholder="Start a new list?"
+								placeholder="Name + Enter"
 								ref={inpList}/>
-							<input type="submit" className='transition duration-150 ease-linear bg-white text-pribg dark:bg-secbg dark:text-pritxt focus:outline-none tracking-wide font-semibold p-2 ml-3 shadow-lg rounded-md px-2' value={"Add"}/>
+							{/* <input type="submit" className='transition duration-150 ease-linear bg-white text-pribg dark:bg-secbg dark:text-pritxt focus:outline-none tracking-wide font-semibold p-2 ml-3 shadow-lg rounded-md px-2' value={"Add"}/> */}
 						</form>
                     </div>
-                    <div className='flex justify-center flex-wrap'>
+                    <div className='mt-[50px] flex flex-wrap'>
                     {Lists.map((item) => (
-                        <div key={item.id} className='mt-10 px-4 m-4 h-fit max-w-2xl rounded-md border shadow-2xl transition duration-150 bg-[#fff] dark:border-none dark:shadow-lg dark:bg-secbg'>
+                        <div key={item.id} className='m-3 px-4 h-fit max-w-sm w-full sm:flex-grow xsm:flex-grow rounded-md border shadow-2xl transition duration-150 bg-[#fff] dark:border-none dark:shadow-lg dark:bg-secbg'>
                             <div className='flex justify-between items-center select-none'>
                                 <h1 id='listName' className='uppercase font-semibold tracking-widest outline-none transition duration-150 text-blue-400 dark:text-cyan-100 text-lg mt-2 p-2'>{item.name}</h1>
                                 <button className='opacity-0 transition duration-200 lg:opacity-100 md:opacity-100 sm:opacity-100 xsm:opacity-100 hover:opacity-100 hover:scale-125' onClick={(e) => {
@@ -79,9 +121,6 @@ export default function Home() {
                             <TodoList list={item} listId={item.id} />
                         </div>
                     ))}
-                    <button className='h-12 w-12 rounded-full transition duration-150 ease-in bg-[#fff] text-pribg dark:bg-terbg dark:text-white m-4 mt-10 shadow-lg flex justify-center items-center' onClick={(e) => {
-                        addLists(e);
-                    }}><MdAdd /></button>
                     </div>
                     
                 </div>

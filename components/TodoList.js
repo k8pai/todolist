@@ -46,22 +46,16 @@ export default function TodoList({list}) {
     })
     return (
     <div className='transition duration-300 ease-linear'>
-        <hr />
         <ul className='pb-2 list-none text-md font-medium font-sans tracking-wide capitalize min-w-2xl'>
-        <form className='flex items-center my-2' onSubmit={(e) => {
+        <form className='flex items-center my-2 pb-5' onSubmit={(e) => {
             e.preventDefault();
             addTodo();
             }}>
-            <label htmlFor="todo1" className='opacity-100'>
-                <IconContext.Provider value={{ color: "gray", size: "1.4em", className: "global-class-name" }}>
-                    <IoMdAdd />
-                </IconContext.Provider>
-            </label>
-            <input className='tracking-widest font-semibold rounded-md px-2 py-px outline-none bg-transparent' autoFocus type="text" placeholder="what's on your mind?" id="todo1" name="todo1" ref={inpEl}/>
+            <input className='tracking-widest font-semibold rounded-md p-3 w-full bg-transparent border border-black dark:border-white' autoFocus type="text" placeholder="what's on your mind?" id="todo1" name="todo1" ref={inpEl}/>
             <input className='form-input tracking-wide capitalize font-semibold p-2 rounded-md px-2 w-5xl mx-3 hidden' type={"submit"} />
         </form>
         {todoList.filter(elem => elem.done == false).map((el, ind) => (
-            <div className='group flex justify-evenly transition-colors duration-150 ease-linear items-center select-none my-2 h-fit w-full' key={el.id}>
+            <div className='group flex items-center select-none my-2 p-2 pl-3 dark:bg-terbg bg-tertxt rounded-md' key={el.id}>
                 <button className='p-px rounded-md outline-none tracking-widest flex-grow text-left transition duration-150 ease-linear text-pribg hover:text-sectxt dark:text-pritxt hover:dark:text-sectxt' onClick={(e) => {
                     e.preventDefault();
                     moveToDone(el.id, ind);
@@ -75,13 +69,11 @@ export default function TodoList({list}) {
                 </button>
             </div>
         ))}
-        </ul>
-        <hr className='bg-black' />
-        <ul className='py-2 list-none text-md font-medium font-sans tracking-wide capitalize'>
-        <code className='font-semibold tracking-wide text-green-400 text-lg mb-px pl-2'>Done</code>
-        {/* <hr /> */}
+		<div className='py-2 m-2'>
+			<hr />
+		</div>
         {todoList.filter(elem => elem.done == true).map((el, ind) => (
-            <div className='group flex items-center select-none my-2' key={el.id}>
+            <div className='group flex items-center select-none my-2 p-2 pl-3 dark:bg-terbg bg-tertxt rounded-md' key={el.id}>
                 <button className='p-px tracking-widest flex-grow text-left rounded-md transition duration-150 text-sectxt hover:text-pribg hover:dark:text-pritxt' onClick={(e) => {
                     e.preventDefault();
                     moveToDone(el.id, ind);
