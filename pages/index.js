@@ -72,7 +72,7 @@ export default function Home() {
     return (
         <>
             <div className='flex-grow flex justify-center transition ease-linear duration-150 bg-pritxt dark:bg-pribg'>
-                <div className='mx-[100px] w-full h-fit'>
+                <div className='mx-auto w-full h-fit'>
                     <div className='max-w-4xl w-full mx-auto p-4 flex-col items-center justify-center'>
 						{errorMessage ?
 						<motion.div
