@@ -18,7 +18,19 @@ export default function Home() {
         const listTemp = localStorage.getItem('Lists');
         const exstTodoList = localStorage.getItem('todoList');
         const exstDoneList = localStorage.getItem('doneList');
-        setLists( listTemp ? JSON.parse(listTemp) : [{id: (Math.floor(Math.random()*100)+"-"+Math.floor(Math.random()*10)+"-"+Math.floor(Math.random()*1000)), name: "default", selected: true}] );
+		const date = new Date();
+		const dateString = date.toLocaleString('en-US', {
+			month: 'short',
+			day: 'numeric',
+			weekday: 'short',
+		});
+		const timeString = date.toLocaleTimeString('en-US', {
+			hour: 'numeric',
+			minute: 'numeric',
+			second: 'numeric',
+			hour12: true
+		});
+        setLists( listTemp ? JSON.parse(listTemp) : [{id: (Math.floor(Math.random()*100)+"-"+Math.floor(Math.random()*10)+"-"+Math.floor(Math.random()*1000)), name: "default", date: dateString, time: timeString,}] );
         setTodoList( exstTodoList ? JSON.parse(exstTodoList) : [] );
         setDoneList( exstDoneList ? JSON.parse(exstDoneList) : [] );
     }, []);
@@ -44,9 +56,23 @@ export default function Home() {
 			names = currList.map(data => data.name);
 		}
 		if(!names.includes(val)){
+			const date = new Date();
+			const dateString = date.toLocaleString('en-US', {
+				month: 'short',
+				day: 'numeric',
+				weekday: 'short',
+			});
+			const timeString = date.toLocaleTimeString('en-US', {
+				hour: 'numeric',
+				minute: 'numeric',
+				second: 'numeric',
+				hour12: true
+			});
 			const data = {
 				id: (Math.floor(Math.random()*100)+"-"+Math.floor(Math.random()*10)+"-"+Math.floor(Math.random()*1000)),
 				name: val,
+				date: dateString,
+				time: timeString,
 			}
 			const next = [...Lists, data];
 			setLists(next);
@@ -101,7 +127,7 @@ export default function Home() {
 							<input className='max-w-[400px] w-full transition-all duration-150 bg-white text-pribg dark:bg-secbg dark:text-pritxt outline-none focus:outline-none tracking-wide uppercase font-semibold p-3 px-4 shadow-lg rounded-md sm:flex-1 xsm:flex-grow' 
 								autoFocus
 								type="text"
-								placeholder="Name + Enter"
+								placeholder="type here..."
 								ref={inpList}/>
 							{/* <input type="submit" className='transition duration-150 ease-linear bg-white text-pribg dark:bg-secbg dark:text-pritxt focus:outline-none tracking-wide font-semibold p-2 ml-3 shadow-lg rounded-md px-2' value={"Add"}/> */}
 						</form>
@@ -109,8 +135,8 @@ export default function Home() {
                     <div className='mt-[50px] flex flex-wrap'>
                     {Lists.map((item) => (
                         <div key={item.id} className='m-3 px-4 h-fit max-w-sm w-full sm:flex-grow xsm:flex-grow rounded-md border shadow-2xl transition duration-150 bg-[#fff] dark:border-none dark:shadow-lg dark:bg-secbg'>
-                            <div className='flex justify-between items-center select-none'>
-                                <h1 id='listName' className='uppercase font-semibold tracking-widest outline-none transition duration-150 text-blue-400 dark:text-cyan-100 text-lg mt-2 p-2'>{item.name}</h1>
+                            <div className='flex justify-start select-none'>
+								<h1 id='listName' className='uppercase flex-grow font-semibold tracking-widest outline-none transition duration-150 text-blue-400 dark:text-cyan-100 text-lg mt-2 p-2'>{item.name}</h1>
                                 <button className='opacity-0 transition duration-200 lg:opacity-100 md:opacity-100 sm:opacity-100 xsm:opacity-100 hover:opacity-100 hover:scale-125' onClick={(e) => {
                                     e.preventDefault();
                                     deleteList(item.name, item.id);
@@ -118,6 +144,7 @@ export default function Home() {
                                     <MdDeleteForever />
                                 </IconContext.Provider></button>
                             </div>
+							<h4 id='listDate' className=' transition duration-150 text-blue-400 dark:text-cyan-100 text-sm mb-4 pl-2'>{item.date} / {item.time}</h4>
                             <TodoList list={item} listId={item.id} />
                         </div>
                     ))}

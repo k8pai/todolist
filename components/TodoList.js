@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { IconContext } from 'react-icons';
 import { IoMdAdd } from 'react-icons/io';
-import { MdDeleteForever, MdDownloadDone, MdPendingActions } from 'react-icons/md';
+import { MdDeleteForever, MdLabelImportant, MdLabelImportantOutline } from 'react-icons/md';
 
 export default function TodoList({list}) {
     const inpEl = useRef();
@@ -17,7 +17,7 @@ export default function TodoList({list}) {
             const next = [{
                 id: (Math.floor(Math.random()*1000000)+"-"+Math.floor(Math.random()*100000000)+"-"+Math.floor(Math.random()*1000000)),
                 task: val,
-                done: false,
+				status: 1,
             }, ...todoList];
             localStorage.setItem(`tasks[${list.id}]`, JSON.stringify(next));
             setTodoList(next);
@@ -33,12 +33,27 @@ export default function TodoList({list}) {
         localStorage.setItem(`tasks[${list.id}]`, JSON.stringify(toBeDone));
         setTodoList(toBeDone);
     }
+
+	const upPriority = ((uniqId) => {
+		const todos = localStorage.getItem(`tasks[${list.id}]`);
+		const toBeDone = todos? JSON.parse(todos) : [];
+
+		toBeDone.map(el => {
+			if(uniqId == el.id){
+				el.status = (el.status == 1) ? 2 : 1;
+			}
+		})
+        localStorage.setItem(`tasks[${list.id}]`, JSON.stringify(toBeDone));
+        setTodoList(toBeDone);
+
+	})
+
     const moveToDone = ((uniqId, uniqIndex) => {
         const todos = localStorage.getItem(`tasks[${list.id}]`);
         const toBeDone = todos? JSON.parse(todos) : [];
         toBeDone.map(el => {
             if(uniqId == el.id){
-                el.done = !el.done;
+                el.status = (el.status == 1 || el.status == 2) ? 0 : 1; 
             }
         })
         localStorage.setItem(`tasks[${list.id}]`, JSON.stringify(toBeDone));
@@ -54,30 +69,72 @@ export default function TodoList({list}) {
             <input className='tracking-widest font-semibold rounded-md p-3 w-full bg-transparent border border-black dark:border-white' autoFocus type="text" placeholder="what's on your mind?" id="todo1" name="todo1" ref={inpEl}/>
             <input className='form-input tracking-wide capitalize font-semibold p-2 rounded-md px-2 w-5xl mx-3 hidden' type={"submit"} />
         </form>
-        {todoList.filter(elem => elem.done == false).map((el, ind) => (
-            <div className='group flex items-center select-none my-2 p-2 pl-3 dark:bg-terbg bg-tertxt rounded-md' key={el.id}>
-                <button className='p-px rounded-md outline-none tracking-widest flex-grow text-left transition duration-150 ease-linear text-pribg hover:text-sectxt dark:text-pritxt hover:dark:text-sectxt' onClick={(e) => {
-                    e.preventDefault();
-                    moveToDone(el.id, ind);
-                }}>{el.task}</button>
-                <button className='ml-3 transition duration-300 opacity-0 lg:opacity-100 md:opacity-100 sm:opacity-100 xsm:opacity-100 group-hover:opacity-90' onClick={(e) => {
-                    e.preventDefault();
-                    deleteItem(el.id);
-                }}><IconContext.Provider value={{ color: "red", size: "1.2em", className: "global-class-name" }}>
-                    <MdDeleteForever />
-                </IconContext.Provider>
-                </button>
-            </div>
-        ))}
+		{todoList.sort((a, b) => b.status - a.status).filter(elem =>elem.status == 2).map((el, ind) => (
+			<div className='group flex items-center select-none my-2 p-2 pl-3 dark:bg-terbg bg-tertxt rounded-md' key={el.id}>
+				<input id={el.id} type={'checkbox'} className='mr-3' onChange={(e) => {
+					e.preventDefault(); 
+					moveToDone(el.id, ind);
+				}} />
+				<label htmlFor={el.id} className='p-px flex-grow rounded-md outline-none tracking-widest text-left transition duration-150 ease-linear text-pribg hover:text-sectxt dark:text-pritxt' onClick={(e) => {
+					e.preventDefault();
+					moveToDone(el.id, ind);
+				}}>{el.task}</label>
+				<button className='ml-3 ' onClick={(e) => {
+						e.preventDefault();
+						upPriority(el.id);
+					}}><IconContext.Provider value={{ color: "red", size: "1.2em", className: "global-class-name" }}>
+						<MdLabelImportant />
+					</IconContext.Provider>
+				</button>
+				<button className='ml-3 transition duration-300 opacity-0 lg:opacity-100 md:opacity-100 sm:opacity-100 xsm:opacity-100 group-hover:opacity-90' onClick={(e) => {
+						e.preventDefault();
+						deleteItem(el.id);
+					}}><IconContext.Provider value={{ color: "red", size: "1.2em", className: "global-class-name" }}>
+						<MdDeleteForever />
+					</IconContext.Provider>
+				</button>
+			</div>
+		))}
+		{todoList.sort((a, b) => b.status - a.status).filter(elem =>elem.status == 1).map((el, ind) => (
+			<div className='group flex items-center select-none my-2 p-2 pl-3 dark:bg-terbg bg-tertxt rounded-md' key={el.id}>
+				<input id={el.id} type={'checkbox'} className='mr-3' onChange={(e) => {
+					e.preventDefault(); 
+					moveToDone(el.id, ind);
+				}} />
+				<label htmlFor={el.id} className='p-px flex-grow rounded-md outline-none tracking-widest text-left transition duration-150 ease-linear text-pribg hover:text-sectxt dark:text-pritxt' onClick={(e) => {
+					e.preventDefault();
+					moveToDone(el.id, ind);
+				}}>{el.task}</label>
+				<button className='ml-3' onClick={(e) => {
+						e.preventDefault();
+						upPriority(el.id);
+					}}><IconContext.Provider value={{ color: "green", size: "1.2em", className: "global-class-name" }}>
+						<MdLabelImportant />
+					</IconContext.Provider>
+				</button>
+				<button className='ml-3 transition duration-300 opacity-0 lg:opacity-100 md:opacity-100 sm:opacity-100 xsm:opacity-100 group-hover:opacity-90' onClick={(e) => {
+						e.preventDefault();
+						deleteItem(el.id);
+					}}><IconContext.Provider value={{ color: "red", size: "1.2em", className: "global-class-name" }}>
+						<MdDeleteForever />
+					</IconContext.Provider>
+				</button>
+			</div>
+		))}
 		<div className='py-2 m-2'>
 			<hr />
 		</div>
-        {todoList.filter(elem => elem.done == true).map((el, ind) => (
+        {todoList.filter(elem => elem.status == 0).map((el, ind) => (
             <div className='group flex items-center select-none my-2 p-2 pl-3 dark:bg-terbg bg-tertxt rounded-md' key={el.id}>
-                <button className='p-px tracking-widest flex-grow text-left rounded-md transition duration-150 text-sectxt hover:text-pribg hover:dark:text-pritxt' onClick={(e) => {
+			
+				<input id={el.id} type={'checkbox'} className='mr-3' checked onChange={(e) => {
+					e.preventDefault(); 
+					moveToDone(el.id, ind);
+				}} />
+                <label htmlFor={el.id} className='p-px tracking-widest flex-grow text-left rounded-md transition duration-150 text-sectxt hover:text-pribg hover:dark:text-pritxt' onClick={(e) => {
                     e.preventDefault();
                     moveToDone(el.id, ind);
-                }}><strike>{el.task}</strike></button>
+                }}><strike>{el.task}</strike></label>
                 <button className='ml-3 transition duration-200 opacity-0 lg:opacity-100 md:opacity-100 sm:opacity-100 xsm:opacity-100 group-hover:opacity-90' onClick={(e) => {
                     e.preventDefault();
                     deleteItem(el.id);
