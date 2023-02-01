@@ -1,19 +1,17 @@
 import Head from 'next/head'
 import Image from 'next/image'
-import { IconContext } from "react-icons";
+import { IconContext } from "react-icons"
 import { useEffect, useRef, useState } from 'react'
 import { MdDeleteForever, MdAdd } from 'react-icons/md'
-import { CiWarning } from 'react-icons/ci';
-import TodoList from '../components/TodoList';
-import { motion } from 'framer-motion';
+import { CiWarning } from 'react-icons/ci'
+import TodoList from '../components/TodoList'
+import NamingErrorMessage from '../components/NamingErrorMessage'
 
 
 export default function Home() {
     const inpList = useRef();
     const inpEl = useRef();
 	const [errorMessage, setErrorMessage] = useState(null);
-	const [showMessage, setShowMessage] = useState(true);
-
     useEffect(() => {
         const listTemp = localStorage.getItem('Lists');
         const exstTodoList = localStorage.getItem('todoList');
@@ -40,12 +38,12 @@ export default function Home() {
 
     const addLists = (e) => {
 		e.preventDefault();
-		setShowMessage(true);
         const val = inpList.current.value;
 		if (!val) {
 			// Set the error message in the component's state
-			console.log("invalid input, empty");
-			setErrorMessage('Name The List!');
+			
+			console.log("Error message set!");
+			setErrorMessage('Name can\'t be left empty!');
 			return;
 		}
 		setErrorMessage(null);
@@ -83,7 +81,7 @@ export default function Home() {
 			setErrorMessage(null);
 			return;
 		}else{
-			console.log("invalid input, taken name");
+			console.log("error message set!");
 			setErrorMessage('List Exist, Try Another Name!');
 			return;
 		}
@@ -100,29 +98,12 @@ export default function Home() {
             <div className='flex-grow flex justify-center transition ease-linear duration-150 bg-pritxt dark:bg-pribg'>
                 <div className='mx-auto w-full h-fit'>
                     <div className='max-w-4xl w-full mx-auto p-4 flex-col items-center justify-center'>
-						{errorMessage ?
-						<motion.div
-							initial={{opacity: showMessage? 0: 1}}
-							animate={{opacity: showMessage? 1: 0}}
-							transition={{duration: .3}}
-							className='p-2 my-3 text-red-600 text-lg font-semibold font-mono flex items-center justify-center'> 
-							{errorMessage}
-						</motion.div> :
-						<motion.div
-							initial={{opacity: 0}}
-							animate={{opacity: 1}}
-							transition={{duration: .2}}
-							className='p-2 my-3 text-lg xsm:text-base font-semibold font-mono flex items-center justify-center'> 
-							Pick a name for your list!
-						</motion.div>}
+						<NamingErrorMessage errorMessage={errorMessage} />
 						<form className=' w-full flex justify-center' onSubmit={(e) => {
 							addLists(e)
 							setTimeout(() => {
-								setShowMessage(false);
-							}, 2500);
-							setTimeout(() => {
 								setErrorMessage(null);
-							},2900);
+							}, 2500);
 							}}>
 							<input className='max-w-[400px] w-full transition-all duration-150 bg-white text-pribg dark:bg-secbg dark:text-pritxt outline-none focus:outline-none tracking-wide uppercase font-semibold p-3 px-4 shadow-lg rounded-md sm:flex-1 xsm:flex-grow' 
 								autoFocus
