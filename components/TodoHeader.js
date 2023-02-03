@@ -1,38 +1,41 @@
-import React, { useEffect, useMemo, useReducer, useState } from 'react'
+import React, { useState } from 'react'
 import NamingErrorMessage from './NamingErrorMessage';
-import { useLocalstorage } from '../lib/hooks';
 import { listIdGenerator } from '../lib/generator';
 
-function reducer(state, val){
-	const data = { id: listIdGenerator(), name: val }
-	localStorage.setItem('List', JSON.stringify([...state, data]));
-	return [...state, data]
-}
 
-const TodoHeader = ({ addLists, errorMessage, setErrorMessage }) => {
+const TodoHeader = ({ dispatch, errorMessage, setErrorMessage }) => {
 
 	const [name, setName] = useState('')
-	const initlist = useMemo(() => {
-		if (typeof window !== 'undefined') {
-			let val = JSON.parse(localStorage.getItem('List'));
-			if(val){
-				return [...val]
-			}
-			return [{id: listIdGenerator(), name: "default"}]
-		}else{
-			return [{id: listIdGenerator(), name: "default"}]
+
+	const addLists = (val) => {
+		if (!val) {
+			console.log("Error message set!");
+			setErrorMessage('Name can\'t be left empty!');
+			return;
 		}
-	}, [])
-	const [list, setList] = useReducer(reducer, initlist);
+		var listTemp = localStorage.getItem('List');
+		const currList = listTemp ? JSON.parse(listTemp) : [];
+		let names = currList? currList.map(data => data.name): [];
+		if(!names.includes(val)){
+			const data = { id: listIdGenerator(), name: val }
+			dispatch({
+				type: 'ADD_LIST',
+				payload: val,
+			})
+		}else{
+			console.log("error message set!");
+			setErrorMessage('List Exist, Try Another Name!');
+			return;
+		}
+	}
 
 	return (
 		<div className='max-w-4xl w-full mx-auto p-4 flex-col items-center justify-center'>
 			<NamingErrorMessage errorMessage={errorMessage} />
 			<form className=' w-full flex justify-center' onSubmit={(e) => {
 				e.preventDefault()
-				setList(name)
+				addLists(name)
 				setName('');
-
 				setTimeout(() => {
 					setErrorMessage(null);
 				}, 2500);
@@ -43,7 +46,7 @@ const TodoHeader = ({ addLists, errorMessage, setErrorMessage }) => {
 					placeholder="type here..."
 					value={name}
 					onChange={(e) => setName(e.target.value)}
-					/>
+				/>
 			</form>
 		</div>
 	)
