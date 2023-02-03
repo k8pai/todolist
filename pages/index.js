@@ -6,6 +6,7 @@ import { MdDeleteForever, MdAdd } from 'react-icons/md'
 import { CiWarning } from 'react-icons/ci'
 import TodoList from '../components/TodoList'
 import NamingErrorMessage from '../components/NamingErrorMessage'
+import TodoHeader from '../components/TodoHeader'
 
 
 export default function Home() {
@@ -92,27 +93,12 @@ export default function Home() {
         setLists(todos ? todos : []);
         localStorage.setItem('Lists', JSON.stringify(todos));
     }
-
+	const todoHeaderProps = { addLists, errorMessage, setErrorMessage }
     return (
         <>
             <div className='flex-grow flex justify-center transition ease-linear duration-150 bg-pritxt dark:bg-pribg'>
                 <div className='mx-auto w-full h-fit'>
-                    <div className='max-w-4xl w-full mx-auto p-4 flex-col items-center justify-center'>
-						<NamingErrorMessage errorMessage={errorMessage} />
-						<form className=' w-full flex justify-center' onSubmit={(e) => {
-							addLists(e)
-							setTimeout(() => {
-								setErrorMessage(null);
-							}, 2500);
-							}}>
-							<input className='max-w-[400px] w-full transition-all duration-150 bg-white text-pribg dark:bg-secbg dark:text-pritxt outline-none focus:outline-none tracking-wide uppercase font-semibold p-3 px-4 shadow-lg rounded-md sm:flex-1 xsm:flex-grow' 
-								autoFocus
-								type="text"
-								placeholder="type here..."
-								ref={inpList}/>
-							{/* <input type="submit" className='transition duration-150 ease-linear bg-white text-pribg dark:bg-secbg dark:text-pritxt focus:outline-none tracking-wide font-semibold p-2 ml-3 shadow-lg rounded-md px-2' value={"Add"}/> */}
-						</form>
-                    </div>
+                    <TodoHeader {...todoHeaderProps}/>
                     <div className='mt-[50px] flex flex-wrap'>
                     {Lists.map((item) => (
                         <div key={item.id} className='m-3 px-4 h-fit max-w-sm w-full sm:flex-grow xsm:flex-grow rounded-md border shadow-2xl transition duration-150 bg-[#fff] dark:border-none dark:shadow-lg dark:bg-secbg'>
