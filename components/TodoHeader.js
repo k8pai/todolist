@@ -42,6 +42,7 @@ const TodoHeader = ({ dispatch, errorMessage, setErrorMessage }) => {
 				}}>
 				<input className='max-w-[400px] w-full transition-all duration-150 bg-white text-pribg dark:bg-secbg dark:text-pritxt outline-none focus:outline-none tracking-wide uppercase font-semibold p-3 px-4 shadow-lg rounded-md sm:flex-1 xsm:flex-grow' 
 					autoFocus
+					autoComplete='off'
 					type="text"
 					placeholder="type here..."
 					value={name}

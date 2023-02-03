@@ -50,7 +50,7 @@ export default function Home() {
 		})
     }
 
-	const todoHeaderProps = { list, dispatch, errorMessage, setErrorMessage }
+	const todoHeaderProps = { dispatch, errorMessage, setErrorMessage }
     return (
         <>
             <div className='flex-grow flex justify-center transition ease-linear duration-150 bg-pritxt dark:bg-pribg'>

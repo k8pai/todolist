@@ -1,32 +1,30 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { IconContext } from 'react-icons';
-import { IoMdAdd } from 'react-icons/io';
-import { MdDeleteForever, MdLabelImportant, MdLabelImportantOutline } from 'react-icons/md';
+import { MdDeleteForever, MdLabelImportant } from 'react-icons/md';
+import { todoIdGenerator } from '../lib/generator';
 
 export default function TodoList({list}) {
-    const inpEl = useRef();
+
+	const [todoName, setTodoName] = useState('');
+	const [todoList, setTodoList] = useState([]);
+
     useEffect(() => {
         const exstTodoList = localStorage.getItem(`tasks[${list.id}]`);
         setTodoList( exstTodoList ? JSON.parse(exstTodoList) : [] );
     }, []);
-    const [todoList, setTodoList] = useState([]);
     
-    const addTodo = () => {
-        const val = inpEl.current.value;
+    const addTodo = (val) => {
         if(val != "") {
             const next = [{
-                id: (Math.floor(Math.random()*1000000)+"-"+Math.floor(Math.random()*100000000)+"-"+Math.floor(Math.random()*1000000)),
+                id: todoIdGenerator(),
                 task: val,
 				status: 1,
             }, ...todoList];
             localStorage.setItem(`tasks[${list.id}]`, JSON.stringify(next));
             setTodoList(next);
-            inpEl.current.value = "";
-            focus(inpEl);
         }
     }
     const deleteItem = (ind) => {
-        
         const todos = localStorage.getItem(`tasks[${list.id}]`);
         var toBeDone = todos? JSON.parse(todos) : [];
         toBeDone = toBeDone.filter(el => el.id != ind)
@@ -64,10 +62,21 @@ export default function TodoList({list}) {
         <ul className='pb-2 list-none text-md font-medium font-sans tracking-wide capitalize min-w-2xl'>
         <form className='flex items-center my-2 pb-5' onSubmit={(e) => {
             e.preventDefault();
-            addTodo();
+            addTodo(todoName)
+			setTodoName('');
             }}>
-            <input className='tracking-widest font-semibold rounded-md p-3 w-full bg-transparent border border-black dark:border-white' autoFocus type="text" placeholder="what's on your mind?" id="todo1" name="todo1" ref={inpEl}/>
-            <input className='form-input tracking-wide capitalize font-semibold p-2 rounded-md px-2 w-5xl mx-3 hidden' type={"submit"} />
+            <input 
+				className='tracking-widest font-semibold rounded-md p-3 w-full bg-transparent border border-black dark:border-white' 
+				autoFocus 
+				autoComplete='off' 
+				type="text" 
+				placeholder="what's on your mind?" 
+				id="todo1" 
+				name="todo1"
+				value={todoName}
+				onChange={(e) => setTodoName(e.target.value)} 
+			/>
+            {/* <input className='form-input tracking-wide capitalize font-semibold p-2 rounded-md px-2 w-5xl mx-3 hidden' type={"submit"} /> */}
         </form>
 		{todoList.sort((a, b) => b.status - a.status).filter(elem =>elem.status == 2).map((el, ind) => (
 			<div className='group flex items-center select-none my-2 p-2 pl-3 dark:bg-terbg bg-tertxt rounded-md' key={el.id}>
