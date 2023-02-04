@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { IconContext } from 'react-icons'
 import { MdDeleteForever } from 'react-icons/md'
 
-const InputTodoName = ({ item, lists, setLists, renameList, deleteList }) => {
+const InputTodoName = ({ item, renameList, deleteList }) => {
 	const [state, setState] = useState(item.name)
 	
 	return (

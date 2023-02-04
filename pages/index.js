@@ -15,12 +15,11 @@ export default function Home() {
 
 	useEffect(() => {
 		localStorage.setItem('List', JSON.stringify(lists));
-	}, [])
+	}, [lists])
 
 	const addList = (newName) => {
 		const data = { id: listIdGenerator(), name: newName }
 		setLists([...lists, data])
-		localStorage.setItem('List', JSON.stringify([...lists, data]));
 	}
 
 	const renameList = (id, newName) => {
@@ -32,18 +31,15 @@ export default function Home() {
 		});
 
 		setLists(updatedList);
-		localStorage.setItem('List', JSON.stringify(updatedList));
 	};
 
 	const deleteList = (id) => {
-		const updatedList = lists.filter(el => el.id !== id);
-		setLists(updatedList);
-		localStorage.setItem('List', JSON.stringify(updatedList));
+		localStorage.removeItem(`tasks[${id}]`);
+		setLists(val => val.filter(el => el.id !== id));
 	}
 
 	const todoHeaderProps = { addList }
-	const InputTodoNameProps = { lists, setLists, renameList, deleteList }
-	// const todoBodyProps = { deleteList, lists, renameList }
+	const InputTodoNameProps = { renameList, deleteList }
     return (
         <>
             <div className='flex-grow flex justify-center transition ease-linear duration-150 bg-pritxt dark:bg-pribg'>
