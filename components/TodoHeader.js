@@ -3,7 +3,7 @@ import NamingErrorMessage from './NamingErrorMessage';
 import { listIdGenerator } from '../lib/generator';
 
 
-const TodoHeader = ({ dispatch, errorMessage, setErrorMessage }) => {
+const TodoHeader = ({ addList, errorMessage, setErrorMessage }) => {
 
 	const [name, setName] = useState('')
 
@@ -17,11 +17,7 @@ const TodoHeader = ({ dispatch, errorMessage, setErrorMessage }) => {
 		const currList = listTemp ? JSON.parse(listTemp) : [];
 		let names = currList? currList.map(data => data.name): [];
 		if(!names.includes(val)){
-			const data = { id: listIdGenerator(), name: val }
-			dispatch({
-				type: 'ADD_LIST',
-				payload: val,
-			})
+			addList(val)
 		}else{
 			console.log("error message set!");
 			setErrorMessage('List Exist, Try Another Name!');

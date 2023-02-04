@@ -24,6 +24,7 @@ export default function TodoList({list}) {
             setTodoList(next);
         }
     }
+
     const deleteItem = (ind) => {
         const todos = localStorage.getItem(`tasks[${list.id}]`);
         var toBeDone = todos? JSON.parse(todos) : [];
@@ -60,13 +61,13 @@ export default function TodoList({list}) {
     return (
     <div className='transition duration-300 ease-linear'>
         <ul className='pb-2 list-none text-md font-medium font-sans tracking-wide capitalize min-w-2xl'>
-        <form className='flex items-center my-2 pb-5' onSubmit={(e) => {
+        <form className='flex items-center my-2' onSubmit={(e) => {
             e.preventDefault();
             addTodo(todoName)
 			setTodoName('');
             }}>
             <input 
-				className='tracking-widest font-semibold rounded-md p-3 w-full bg-transparent border border-black dark:border-white' 
+				className='tracking-widest font-semibold rounded-md p-3 my-2 w-full bg-transparent border border-black dark:border-white' 
 				autoFocus 
 				autoComplete='off' 
 				type="text" 
