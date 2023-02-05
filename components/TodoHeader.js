@@ -15,7 +15,7 @@ const TodoHeader = ({ item, renameList, deleteList }) => {
 					setState(e.target.value)
 					renameList(item.id, e.target.value)
 				}}
-				className='tracking-widest text-cyan-100 uppercase font-semibold rounded-md px-3 py-2 my-2 outline-none w-full bg-transparent ' 
+				className='tracking-widest text-pribg dark:text-cyan-200 capitalize font-semibold rounded-md px-3 py-2 my-2 outline-none w-full bg-transparent ' 
 				autoComplete='off'
 			/>
 			<button 
