@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-const InputTodoItem = ({ addTodo }) => {
+const InputTodoItem = ({ addItem }) => {
 
 	const [todoName, setTodoName] = useState('');
 
@@ -9,7 +9,7 @@ const InputTodoItem = ({ addTodo }) => {
 			className='flex items-center my-2' 
 			onSubmit={(e) => {
 				e.preventDefault();
-				addTodo(todoName)
+				addItem(todoName) 
 				setTodoName('');
             }}>
             <input 

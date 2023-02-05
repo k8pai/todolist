@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react'
-import TodoHeader from '../components/TodoHeader'
 import { listIdGenerator } from "../lib/generator"
-import InputTodoName from '../components/InputTodoName'
-import TodoList from '../components/TodoList'
+import ListInput from '../components/ListInput'
+import TodoCard from '../components/TodoCard'
 
 export default function Home() {
 
@@ -44,14 +43,10 @@ export default function Home() {
         <>
             <div className='flex-grow flex justify-center transition ease-linear duration-150 bg-pritxt dark:bg-pribg'>
                 <div className='mx-auto w-full h-fit'>
-                    <TodoHeader {...todoHeaderProps}/>
+                    <ListInput {...todoHeaderProps}/>
 					<div className='mt-[50px] flex flex-wrap'>
 						{lists.map(item => (
-							<div key={item.id} className='m-3 px-4 h-fit max-w-sm w-full sm:flex-grow xsm:flex-grow rounded-md border shadow-2xl transition duration-150 bg-[#fff] dark:border-none dark:shadow-lg dark:bg-secbg'>
-								<InputTodoName item={item} {...InputTodoNameProps} />
-								<hr />
-								<TodoList list={item} />
-							</div>
+							<TodoCard key={item.id} item={item} {...InputTodoNameProps} />
 						))}
 					</div>
                 </div>
