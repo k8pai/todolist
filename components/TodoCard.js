@@ -53,7 +53,7 @@ const TodoCard = ({ item, renameList, deleteList }) => {
 				<ul className='pb-2 list-none text-md font-medium font-sans tracking-wide capitalize min-w-2xl'>
 					<InputTodoItem {...inputTodoItemProps} />
 					{todoItems.map(el => 
-						<TodoItems elem={el} {...todoItemsProps} />
+						<TodoItems key={el.id} elem={el} {...todoItemsProps} />
 					)}
 				</ul>
 			</div>
