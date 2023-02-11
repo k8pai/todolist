@@ -38,7 +38,21 @@ const TodoCard = ({ item, renameList, deleteList }) => {
 			}
 			return el;
 		});
-		setTodoItems(data);
+
+		console.log(data);
+
+		let el = todoItems.find((el) => el.id === uniqId);
+		// console.log('el = ', el);
+
+		el = { ...el, done: !el.done };
+		const filtItems = todoItems.filter((el) => el.id !== uniqId);
+		// console.log('filtItems = ', filtItems);
+
+		const newarr = el.done ? [...filtItems, el] : [el, ...filtItems];
+		console.log('new array = ', newarr);
+		// const data = todoItems.
+
+		setTodoItems(newarr);
 	};
 
 	const todoHeaderProps = { renameList, deleteList };

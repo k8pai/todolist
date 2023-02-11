@@ -4,6 +4,12 @@ import ListInput from '../components/ListInput';
 import TodoCard from '../components/TodoCard';
 
 export default function Home() {
+	const [isMounted, setIsMounted] = useState(false);
+
+	useEffect(() => {
+		setIsMounted(true);
+	}, []);
+
 	const [lists, setLists] = useState(() => {
 		if (typeof window !== 'undefined') {
 			return (
@@ -47,8 +53,8 @@ export default function Home() {
 			<div className="flex-grow flex justify-center transition ease-linear duration-150 bg-pritxt dark:bg-pribg">
 				<div className="mx-auto w-full h-fit">
 					<ListInput {...todoHeaderProps} />
-					<div className="mt-[50px] flex flex-wrap xsm:justify-center sm:justify-center md:justify-center lg:justify-center">
-						{lists &&
+					<div className="mt-[50px] flex flex-wrap xsm:justify-center sm:justify-center md:justify-center">
+						{isMounted &&
 							lists?.map((item) => (
 								<TodoCard
 									key={item.id}
