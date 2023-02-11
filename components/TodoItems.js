@@ -1,8 +1,6 @@
 import React from 'react';
 import { IconContext } from 'react-icons';
 import { MdDeleteForever } from 'react-icons/md';
-import { IoIosDoneAll } from 'react-icons/io';
-import { GiAnticlockwiseRotation } from 'react-icons/gi';
 
 const TodoItems = ({ elem, deleteItem, moveToDone }) => {
 	return (

@@ -32,26 +32,10 @@ const TodoCard = ({ item, renameList, deleteList }) => {
 	};
 
 	const moveToDone = (uniqId) => {
-		const data = todoItems.map((el) => {
-			if (el.id === uniqId) {
-				return { ...el, done: !el.done };
-			}
-			return el;
-		});
-
-		console.log(data);
-
-		let el = todoItems.find((el) => el.id === uniqId);
-		// console.log('el = ', el);
-
+		let el = todoItems.find((item) => item.id === uniqId);
 		el = { ...el, done: !el.done };
-		const filtItems = todoItems.filter((el) => el.id !== uniqId);
-		// console.log('filtItems = ', filtItems);
-
+		const filtItems = todoItems.filter((item) => item.id !== uniqId);
 		const newarr = el.done ? [...filtItems, el] : [el, ...filtItems];
-		console.log('new array = ', newarr);
-		// const data = todoItems.
-
 		setTodoItems(newarr);
 	};
 
