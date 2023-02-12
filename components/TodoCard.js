@@ -43,7 +43,7 @@ const TodoCard = ({ item, renameList, deleteList }) => {
 	const todoItemsProps = { addItem, deleteItem, moveToDone };
 	const inputTodoItemProps = { addItem };
 	return (
-		<div className="m-3 px-4 h-fit max-w-sm w-full sm:flex-grow xsm:flex-grow rounded-md border shadow-2xl transition duration-150 bg-[#fff] dark:border-none dark:shadow-lg dark:bg-secbg">
+		<div className="m-3 px-4 h-fit max-w-sm w-full rounded-md border shadow-2xl transition duration-150 bg-[#fff] dark:border-none dark:shadow-lg dark:bg-secbg">
 			<TodoHeader item={item} {...todoHeaderProps} />
 			<hr />
 			<div className="transition duration-300 ease-linear">

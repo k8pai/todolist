@@ -53,7 +53,7 @@ export default function Home() {
 			<div className="flex-grow flex justify-center transition ease-linear duration-150 bg-pritxt dark:bg-pribg">
 				<div className="mx-auto w-full h-fit">
 					<ListInput {...todoHeaderProps} />
-					<div className="mt-[50px] flex flex-wrap xsm:justify-center sm:justify-center md:justify-center">
+					<div className="mt-[50px] flex flex-wrap justify-center md:justify-start">
 						{isMounted &&
 							lists?.map((item) => (
 								<TodoCard
