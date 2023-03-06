@@ -9,6 +9,7 @@
 		"lint": "next lint"
 	},
 	"dependencies": {
+		"@headlessui/react": "^1.7.13",
 		"framer-motion": "^8.0.2",
 		"next": "13.0.0",
 		"next-themes": "^0.2.1",
