@@ -50,7 +50,7 @@ export default function Home() {
 	const InputTodoNameProps = { renameList, deleteList };
 	return (
 		<>
-			<div className="flex-grow flex justify-center transition ease-linear duration-150 bg-pritxt dark:bg-pribg">
+			<div className="flex-grow flex justify-center bg-pritxt dark:bg-pribg">
 				<div className="mx-auto w-full h-fit">
 					<ListInput {...todoHeaderProps} />
 					<div className="mt-[50px] flex flex-wrap justify-center md:justify-start">
