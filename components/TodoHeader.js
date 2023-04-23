@@ -80,8 +80,11 @@ const TodoHeader = ({ item, renameList, deleteList }) => {
 									</Dialog.Title>
 									<div className="mt-2">
 										<p className="text-sm text-pritxt">
-											Are you sure you want to delete this
-											todo card?
+											Are you sure you want to delete{' '}
+											<span className="font-semibold font-mono tracking-wider px-1 rounded-md">
+												{item.name}
+											</span>{' '}
+											?
 										</p>
 									</div>
 

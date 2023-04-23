@@ -23,13 +23,13 @@ const TodoItems = ({ elem, deleteItem, moveToDone }) => {
 					className={'mr-3 form-checkbox rounded-full text-green-500'}
 					disabled
 				/>
-				<p className="transition duration-150 ease-linear text-pribg group-hover:text-sectxt dark:text-pritxt">
+				<p className="transition-opacity text-pribg group-hover:opacity-70 dark:text-pritxt">
 					{elem.done ? <strike>{elem.task}</strike> : elem.task}
 				</p>
 			</label>
 			<span className="mx-1">|</span>
 			<button
-				className="p-1 m-2 rounded transition duration-200 opacity-100 xl:hover:dark:bg-secbg xl:hover:bg-[#fff] xl:hover:scale-125 xl:hover:opacity-100"
+				className="p-1 m-2 rounded transition-opacity opacity-100 xl:hover:dark:bg-secbg xl:hover:bg-[#fff] xl:hover:scale-125 xl:hover:opacity-100"
 				onClick={(e) => {
 					e.preventDefault();
 					deleteItem(elem.id);

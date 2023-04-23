@@ -23,7 +23,7 @@ const Layout = ({ children }) => {
 				<meta name="author" content="k8pai" />
 				<title>Todo List By k8pai</title>
 			</Head>
-			<div className="min-h-screen flex flex-col transition duration-150 ease-in-out bg-pritxt text-pribg dark:text-pritxt dark:bg-pribg">
+			<div className="min-h-screen flex flex-col bg-pritxt text-pribg dark:text-pritxt dark:bg-pribg">
 				<Header />
 				{children}
 				<Footer />
