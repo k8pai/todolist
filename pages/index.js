@@ -1,70 +1,102 @@
-import { useEffect, useState } from 'react';
-import { listIdGenerator } from '../lib/generator';
-import ListInput from '../components/ListInput';
-import TodoCard from '../components/TodoCard';
+import { useEffect, useState } from 'react'
+import { listIdGenerator } from '../lib/generator'
+import ListInput from '../components/ListInput'
+import TodoCard from '../components/TodoCard'
+import { Toaster } from 'react-hot-toast'
+import axios from '../lib/axios'
+
+const fetFromLocalStorage = () => {
+    if (typeof window !== 'undefined') {
+        return (
+            JSON.parse(localStorage.getItem('List')) || [
+                { id: '000-00-0000', name: 'default' },
+            ]
+        )
+    }
+    return [{ id: '000-00-0000', name: 'default' }]
+}
 
 export default function Home() {
-	const [isMounted, setIsMounted] = useState(false);
+    const [lists, setLists] = useState([])
 
-	useEffect(() => {
-		setIsMounted(true);
-	}, []);
+    useEffect(() => {
+        axios.get('/api/list').then((response) => {
+            setLists(response.data)
+        })
+    }, [])
 
-	const [lists, setLists] = useState(() => {
-		if (typeof window !== 'undefined') {
-			return (
-				JSON.parse(localStorage.getItem('List')) || [
-					{ id: '000-00-0000', name: 'default' },
-				]
-			);
-		}
-		return [{ id: '000-00-0000', name: 'default' }];
-	});
+    const addList = (name) => {
+        axios
+            .post('/api/list', {
+                name,
+            })
+            .then((response) => {
+                console.log(response)
+                setLists((ref) => [...ref, ...response.data])
+            })
+        // setLists((prevList) => [...prevList, { id: listIdGenerator(), name }])
+    }
 
-	useEffect(() => {
-		localStorage.setItem('List', JSON.stringify(lists));
-	}, [lists]);
+    const renameList = (id, name) => {
+        setLists((prevList) =>
+            prevList.map((list) => {
+                if (list._id === id) {
+                    return { ...list, name }
+                }
+                return list
+            })
+        )
+    }
 
-	const addList = (newName) => {
-		const data = { id: listIdGenerator(), name: newName };
-		setLists([...lists, data]);
-	};
+    const deleteList = (id) => {
+        console.log('id before delete', id)
+        axios
+            .delete('/api/list', {
+                data: { id },
+            })
+            .then((response) => {
+                console.log(response)
+                if (response.acknowledged) {
+                    setLists((prevList) =>
+                        prevList.filter((el) => el._id !== id)
+                    )
+                }
+                // setLists(response.data)
+            })
 
-	const renameList = (id, newName) => {
-		const updatedList = lists.map((item) => {
-			if (item.id === id) {
-				return { ...item, name: newName };
-			}
-			return item;
-		});
+        // localStorage.removeItem(`tasks[${id}]`)
+        // setLists((prevList) => prevList.filter((el) => el.id !== id))
+    }
 
-		setLists(updatedList);
-	};
-
-	const deleteList = (id) => {
-		localStorage.removeItem(`tasks[${id}]`);
-		setLists((val) => val.filter((el) => el.id !== id));
-	};
-
-	const todoHeaderProps = { addList };
-	const InputTodoNameProps = { renameList, deleteList };
-	return (
-		<>
-			<div className="flex-grow flex justify-center bg-pritxt dark:bg-pribg">
-				<div className="mx-auto w-full h-fit">
-					<ListInput {...todoHeaderProps} />
-					<div className="mt-[50px] flex flex-wrap justify-center md:justify-start">
-						{isMounted &&
-							lists?.map((item) => (
-								<TodoCard
-									key={item.id}
-									item={item}
-									{...InputTodoNameProps}
-								/>
-							))}
-					</div>
-				</div>
-			</div>
-		</>
-	);
+    return (
+        <>
+            <div className="flex-grow flex justify-center bg-pritxt dark:bg-pribg">
+                <div className="mx-auto w-full h-fit">
+                    <ListInput {...{ addList }} />
+                    <div className="mt-[50px] flex flex-wrap justify-center md:justify-start">
+                        {/* {isMounted && */}
+                        {lists?.map((item) => (
+                            <TodoCard
+                                key={item._id}
+                                item={item}
+                                {...{ renameList, deleteList }}
+                            />
+                        ))}
+                        {/* } */}
+                    </div>
+                </div>
+            </div>
+            <Toaster
+                position="top-center"
+                reverseOrder={false}
+                gutter={8}
+                toastOptions={{
+                    className: 'bg-sectxt dark:bg-secbg text-white',
+                    style: {
+                        color: 'ghostwhite',
+                    },
+                }}
+            />
+        </>
+    )
 }
