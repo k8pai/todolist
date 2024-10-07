@@ -81,3 +81,19 @@ const TodoCard = ({ item, renameList, deleteList }) => {
 }
 
 export default TodoCard
+
+export const TodoCardLoading = () => {
+    return (
+        <div className="m-3 px-4 min-h-[150px] h-full max-w-sm w-full rounded-md border animate-pulse shadow-2xl bg-[#fff] dark:border-none dark:shadow-lg dark:bg-secbg">
+            {/* <TodoHeader item={item} {...{ renameList, deleteList }} /> */}
+            <div className="animate-pulse dark:bg-terbg my-3 rounded-md h-[40px]"></div>
+            <hr className="animate-pulse" />
+            <div className="transition duration-300 ease-linear">
+                <ul className="pb-2 animate-pulse min-h-[40px] dark:bg-terbg list-none text-md font-medium font-sans tracking-wide capitalize min-w-2xl">
+                    {/* <InputTodoItem {...{ addItem }} /> */}
+                    <li className="h-[40px] m-4 rounded-md bg-[#fed] dark:bg-terbg"></li>
+                </ul>
+            </div>
+        </div>
+    )
+}

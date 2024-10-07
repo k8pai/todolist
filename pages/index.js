@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react'
 import { listIdGenerator } from '../lib/generator'
 import ListInput from '../components/ListInput'
-import TodoCard from '../components/TodoCard'
+import TodoCard, { TodoCardLoading } from '../components/TodoCard'
 import { Toaster } from 'react-hot-toast'
 import axios from '../lib/axios'
+import useToggle from '../lib/hooks/useToggle'
 
 const fetFromLocalStorage = () => {
     if (typeof window !== 'undefined') {
@@ -18,10 +19,15 @@ const fetFromLocalStorage = () => {
 
 export default function Home() {
     const [lists, setLists] = useState([])
+    const { value: loading, setTrue, setFalse, toggle } = useToggle(false)
 
     useEffect(() => {
+        setTrue()
         axios.get('/api/list').then((response) => {
             setLists(response.data)
+            setTimeout(() => {
+                setFalse()
+            }, 10000)
         })
     }, [])
 
@@ -75,13 +81,18 @@ export default function Home() {
                     <ListInput {...{ addList }} />
                     <div className="mt-[50px] flex flex-wrap justify-center md:justify-start">
                         {/* {isMounted && */}
-                        {lists?.map((item) => (
-                            <TodoCard
-                                key={item._id}
-                                item={item}
-                                {...{ renameList, deleteList }}
-                            />
-                        ))}
+
+                        {loading
+                            ? [1, 2, 3, 4]?.map((item) => (
+                                  <TodoCardLoading key={`loading-${item}`} />
+                              ))
+                            : lists?.map((item) => (
+                                  <TodoCard
+                                      key={item._id}
+                                      item={item}
+                                      {...{ renameList, deleteList }}
+                                  />
+                              ))}
                         {/* } */}
                     </div>
                 </div>
